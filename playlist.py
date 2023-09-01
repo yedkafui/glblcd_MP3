@@ -1,4 +1,4 @@
-import random
+from random import shuffle
 class Track:
     def __init__(self,title,artist,duration):
         self.title = title
@@ -18,7 +18,7 @@ class Playlist:
         for line in file:
             fields = line.split(";")
             if len(fields) > 2:  # Needed to ignore empty lines of the csv files
-                track = Track(fields[0], fields[1], int(fields[2]))
+                track = Track(fields[0], fields[1], (fields[2]))
                 self.tracks.append(track)
         file.close()
 
@@ -26,7 +26,24 @@ class Playlist:
         print(self.title)
         trackNumber = 1
         for track in self.tracks:
-            print(str(trackNumber) + ") " + track.title + " by " + track.artist + " - " + str(track.duration) + "s")
+            print(f"{trackNumber}. {track.title} by {track.artist} - {track.duration}")
             trackNumber += 1
+    
+    def shuffle_playlist(self):
+        shuffle(self.tracks)
 
-    ##### Compelte this code by adding all the required method of the Playlist class #######
+    def count_tracks(self):
+        print(f"Number of tracks: {len(self.tracks)}")
+
+    def total_duration(self):
+        total = 0
+        for track in self.tracks:
+            duration = track.duration.split(':')
+            seconds = int(duration[0])*60 + int(duration[1])
+            total += seconds
+            
+
+        print(f"Total duration of playlist: {total//60}:{total%60}s")
+    
+
+    
